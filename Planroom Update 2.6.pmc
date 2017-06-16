@@ -1,0 +1,76 @@
+﻿[PMC Code v5.0.5]|F3||1|Window,2,Fast,0,1,Input,-1,-1,1|1|Macro1
+Groups=Start:1
+1|[Assign Variable]|texty := shillebert@agcks.org = 1`n`nagcmo-admin@acmecontracting.net = 2`n`nkarly.hartford@agcok.com = 3`n`nkristys@lagc.org = 4`n`nSSleeper@bx.org = 5`n`nsuz@nesca.org = 6`n`ncea-admin@acmecontracting.net = 7`n`ntammy@ovabc.org = 8`n`nagc-ca-pradmin@acmecontracting.net = 9`n`nsta-ny--admin@acmecontracting.com = 10`n`nsmullane@agcwa.com = 11`n`nbrodgers@agc-utah.org = 12`n`nmgifford@agccolorado.org = 13|1|0|Variable|||||
+2|[Assign Variable]|userName := ["shillebert@agcks.org", "agcmo-admin@acmecontracting.net", "karly.hartford@agcok.com", "kristys@lagc.org", "ssleeper@bx.org", "suz@nesca.org", "cea-admin@acmecontracting.net", "tammy@ovabc.org", "agc-ca-pradmin@acmecontracting.net", "sta-ny-admin@acmecontracting.com", "smullane@agcwa.com", "brodgers@agc-utah.org", "mgifford@agccolorado.org"]|1|0|Variable|Expression||||
+3|[Assign Variable]|password := ["welcome1", "welcome1", "welcome1", "welcome1", "exchange1175", "welcome1", "welcome1", "Welcome1", "Planroom2017", "welcome1", "welcome1", "planroom1", "welcome1"]|1|0|Variable|Expression||||
+4|[Assign Variable]|ArrayCount := userName.Length()|1|0|Variable|Expression||||
+5|InputBox|loopNum, Where would you like to start your update process?, %texty%, , 500, 500, , , , , 1|1|0|InputBox|||||
+6|Method:Navigate:|planroom.construction.com|1|0|IECOM_Set|:|LoadWait|||
+7|WinMaximize||1|333|WinMaximize||Sign In - DODGE PlanRoom - Internet Explorer|||
+8|[LoopStart]|LoopStart|0|0|Loop|ArrayCount<loopNum||||
+9|Continue, Continue, FoundX, FoundY, 0|0, 0, %A_ScreenWidth%, %A_ScreenHeight%, C:\Users\rijul.kumar\AppData\Roaming\MacroCreator\Screenshots\Screen_20170512141713.png|1|0|ImageSearch|UntilFound|Window|||
+10|Method:Focus:Name||1|0|IECOM_Set|UserName:0||||
+11|[Text]|% userName[loopNum]|1|0|Send|||sign in||
+12|[Text]|{Tab}|1|0|Send|||sign in||
+13|[Text]|% password[loopNum]|1|200|Send|||sign in||
+14|Method:Click:ClassName||1|0|IECOM_Set|btn btn-default sign-in-button:0|LoadWait|||
+15|Continue, Continue, FoundX, FoundY|0, 0, %A_ScreenWidth%, %A_ScreenHeight%, 0xDC6767, 0, Fast RGB|1|0|PixelSearch|UntilFound|Window|||
+16|Method:Navigate:|http://planroom.construction.com/3010100/planroom/my-projects/active?force=false|1|0|IECOM_Set|:|LoadWait|||
+17|Continue, Continue, FoundX, FoundY|0, 0, %A_ScreenWidth%, %A_ScreenHeight%, 0xDC6767, 0, Fast RGB|1|0|PixelSearch|UntilFound|Window|||
+18|Property:InnerText:ClassName|totalItems|1|0|IECOM_Get|ng-binding:233||||
+19|StringTrimLeft|totalItems, totalItems, 13|1|0|StringTrimLeft|||||
+20|Method:Focus:ClassName||1|0|IECOM_Set|ng-pristine ng-untouched ng-valid:0||||
+21|[Text]|bidding|1|0|SendRaw|||sign in||
+22|[Pause]||1|1000|Sleep|||||
+23|Property:InnerText:ClassName|biddingItems|1|0|IECOM_Get|ng-binding:233||||
+24|StringTrimLeft|biddingItems, biddingItems, 13|1|0|StringTrimLeft|||||
+25|[Assign Variable]|syncNum := totalItems-biddingItems|1|0|Variable|Expression||||
+26|Method:Click:ClassName||1|0|IECOM_Set|input-group-addon glyphicon glyphicon-remove clear-icon:0||||
+27|[Pause]||1|500|Sleep|||||
+28|[LoopStart]|syncNum>0|1|0|While|||||
+29|Continue, Continue, FoundX, FoundY|0, 0, %A_ScreenWidth%, %A_ScreenHeight%, 0xDC6767, 0, Fast RGB|1|0|PixelSearch|UntilFound|Window|||
+30|Continue, Continue, FoundX, FoundY, 1|0, 0, %A_ScreenWidth%, %A_ScreenHeight%, C:\Users\rijul.kumar\AppData\Roaming\MacroCreator\Screenshots\Screen_20170512113920.png|1|0|ImageSearch|UntilFound|Window|||
+31|Left Move & Click|%FoundX%, %FoundY% Left, 2|1|100|Click|||||
+32|[Pause]||1|500|Sleep|||||
+33|Method:Click:ClassName||1|0|IECOM_Set|ui-grid-cell-contents ng-binding ng-scope:0||||
+34|[Pause]||1|100|Sleep|||||
+35|Method:Click:ClassName||1|0|IECOM_Set|ng-binding:20||||
+36|Left Click|Left, 1, |1|100|Click|||||
+37|WinMaximize||1|333|WinMaximize||A|||
+38|Continue, Continue, FoundX, FoundY|0, 0, %A_ScreenWidth%, %A_ScreenHeight%, 0xDC6767, 0, Fast RGB|1|0|PixelSearch|UntilFound|Window|||
+39|Continue, Continue, FoundX, FoundY, 1|0, 0, %A_ScreenWidth%, %A_ScreenHeight%, C:\Users\rijul.kumar\AppData\Roaming\MacroCreator\Screenshots\Screen_20170512130916.png|1|0|ImageSearch|UntilFound|Window|||
+40|Left Move & Click|%FoundX%, %FoundY% Left, 1|1|100|Click|||||
+41|Continue, Continue, FoundX, FoundY, 1|0, 0, %A_ScreenWidth%, %A_ScreenHeight%, C:\Users\rijul.kumar\AppData\Roaming\MacroCreator\Screenshots\Screen_20170512131014.png|1|0|ImageSearch|UntilFound|Window|||
+42|Left Move & Click|%FoundX%, %FoundY% Left, 1|1|100|Click|||||
+43|Continue, Continue, FoundX, FoundY, 1|0, 0, %A_ScreenWidth%, %A_ScreenHeight%, C:\Users\rijul.kumar\AppData\Roaming\MacroCreator\Screenshots\Screen_20170512133624.png|1|0|ImageSearch|UntilFound|Window|||
+44|[Text]|{Tab}|10|0|Send|||||
+45|[Pause]||1|100|Sleep|||||
+46|[Text]|{Space}|1|25|Send|||||
+47|Continue, Continue, FoundX, FoundY, 1|0, 0, %A_ScreenWidth%, %A_ScreenHeight%, C:\Users\rijul.kumar\AppData\Roaming\MacroCreator\Screenshots\Screen_20170512131257.png|1|0|ImageSearch|UntilFound|Window|||
+48|Left Move & Click|%FoundX%, %FoundY% Left, 1|1|100|Click|||||
+49|[Pause]||1|500|Sleep|||||
+50|[Add Variable]|FoundX += 110|1|0|Variable|||||
+51|[Subtract Variable]|FoundY -= 60|1|0|Variable|||||
+52|Left Move & Click|%FoundX%, %FoundY% Left, 1|1|100|Click|||||
+53|Continue, Continue, FoundX, FoundY, 1|0, 0, %A_ScreenWidth%, %A_ScreenHeight%, C:\Users\rijul.kumar\AppData\Roaming\MacroCreator\Screenshots\Screen_20170512133624.png|1|0|ImageSearch|UntilFound|Window|||
+54|Left Click|Left, 1, |1|100|Click|||||
+55|[Text]|{Tab}|31|0|Send|||||
+56|[Pause]||1|300|Sleep|||||
+57|[Text]|{Down}|2|10|Send|||||
+58|[Text]|{Enter}|1|25|Send|||||
+59|[Text]|{Tab}|3|5|Send|||||
+60|[Text]|{Enter}|1|25|Send|||||
+61|[Subtract Variable]|syncNum -= 1|1|0|Variable|||||
+62|Left Click|Left, 1, |1|100|Click|||||
+63|[Text]|^w|1|0|Send|||||
+64|Continue, Continue, FoundX, FoundY|0, 0, %A_ScreenWidth%, %A_ScreenHeight%, 0xDC6767, 0, Fast RGB|1|0|PixelSearch|UntilFound|Window|||
+65|Left Click|Left, 1, |1|100|Click|||||
+66|Method:Navigate:|http://planroom.construction.com/3010100/planroom/my-projects/active?force=false|1|0|IECOM_Set|:0|LoadWait|||
+67|Continue, Continue, FoundX, FoundY|0, 0, %A_ScreenWidth%, %A_ScreenHeight%, 0xDC6767, 0, Fast RGB|1|0|PixelSearch|UntilFound|Window|||
+68|[LoopEnd]|LoopEnd|1|0|Loop|||||
+69|Method:Click:TagName||1|0|IECOM_Set|A:2|LoadWait|||
+70|[Add Variable]|loopNum += 1|1|0|Variable|||sign out||
+71|[LoopEnd]|LoopEnd|1|0|Loop|||||
+072|[MsgBox]|DONE!|1|0|MsgBox|48|Finito|||
+73|[Text]|^w|1|0|Send|||||
+

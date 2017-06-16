@@ -1,0 +1,92 @@
+﻿[PMC Code v5.0.5]|F3||1|Window,2,Fast,0,1,Input,-1,-1,1|1|Macro1
+Groups=Start:1
+1|FileSelectFile|loginList, , C:\Users\rijul.kumar\Desktop\DGN Bots\Current Versions\DGN Planroom Log In.xlsx, Please Select Log In File|1|0|FileSelectFile|||||
+2|Xl||1|0|COMInterface|Excel.Application||||
+3|[Expression]|Xl.Workbooks.Open(loginList)|1|0|Expression|||||
+4|[Expression]|endRow := Xl.columns("A").end(-4121).row|1|0|Expression|||||
+5|[Assign Variable]|associations := %endRow% -1|1|0|Variable|Expression||||
+6|[Assign Variable]|texty := |1|0|Variable|||||
+7|[Assign Variable]|textyRow := 2|1|0|Variable|||||
+8|[LoopStart]|textyRow <= endRow|1|0|While|||||
+9|[Assign Variable]|name := Xl.range("A" . %textyRow%).value . " = " . (%textyRow%-1) . "`n`n"|1|0|Variable|Expression||||
+10|[Concatenate Variable]|texty .= %name%|1|0|Variable|||||
+11|[Add Variable]|textyRow += 1|1|0|Variable|||||
+12|[LoopEnd]|LoopEnd|1|0|Loop|||||
+13|InputBox|looper, Where would you like to start?, %texty%, , 500, 700, , , , , 14|1|0|InputBox|||||
+14|[Assign Variable]|startTime := %A_TickCount%|1|0|Variable|||||
+15|Method:Navigate:|planroom.construction.com|1|0|IECOM_Set|:|LoadWait|||
+16|WinMaximize||1|333|WinMaximize||A|||
+17|WinActivate||1|333|WinActivate||A|||
+18|[Label]|DGN|1|0|Label|||||
+19|[LoopStart]|LoopStart|0|0|Loop|looper=endRow||||
+20|Compare Variables|looper <= %associations%|1|0|If_Statement|||||
+21|[Assign Variable]|rowNum := %looper%+1|1|0|Variable|Expression||||
+22|Method:Focus:Name||1|0|IECOM_Set|UserName:0||||
+23|[Assign Variable]|Clipboard := Xl.range("A" . %rowNum%).value|1|0|Variable|Expression||||
+24|[Text]|^v|1|0|Send|||||
+25|Method:Focus:Name||1|0|IECOM_Set|Password:0||||
+26|[Assign Variable]|Clipboard := Xl.range("B" . %rowNum%).value|1|0|Variable|Expression||||
+27|[Text]|^v|1|0|Send|||||
+28|[Pause]||1|500|Sleep|||||
+29|Method:Click:ClassName||1|0|IECOM_Set|btn btn-default sign-in-button:0|LoadWait|||
+30|[Pause]||1|500|Sleep|||||
+31|Method:Navigate:|http://planroom.construction.com/3010100/planroom/my-projects/active?force=false|1|0|IECOM_Set|:|LoadWait|||
+32|[Assign Variable]|ID := 276|1|0|Variable|||||
+33|Continue, Continue, FoundX, FoundY|0, 0, %A_ScreenWidth%, %A_ScreenHeight%, 0xDC6767, 0, Fast RGB|1|0|PixelSearch|UntilFound|Window|||
+34|Property:InnerText:ClassName|LoopNum|1|0|IECOM_Get|ng-binding:233||||
+35|StringTrimLeft|LoopNum, LoopNum, 13|1|0|StringTrimLeft|||||
+36|[LoopStart]|LoopStart|0|0|Loop|LoopNum = 0||||
+37|Method:Click:TagName||1|0|IECOM_Set|DIV:%ID%||||
+38|[Pause]||1|300|Sleep|||||
+39|Method:Click:ClassName||1|0|IECOM_Set|ng-binding:20||||
+40|WinMaximize||1|333|WinMaximize||A|||
+41|[Pause]||1|3000|Sleep|||||
+42|[Label]|details|1|0|Label|||||
+43|Continue, Continue, FoundX, FoundY|0, 0, %A_ScreenWidth%, %A_ScreenHeight%, 0xDC6767, 0, Fast RGB|1|0|PixelSearch|UntilFound|Window|||
+44|Continue, Continue, FoundX, FoundY, 1|0, 0, %A_ScreenWidth%, %A_ScreenHeight%, C:\Users\rijul.kumar\AppData\Roaming\MacroCreator\Screenshots\Screen_20170512130916.png|1|0|ImageSearch|UntilFound|Window|||
+45|Left Move & Click|%FoundX%, %FoundY% Left, 1|1|10|Click|||||
+46|Continue, Continue, FoundX, FoundY, 1|0, 0, %A_ScreenWidth%, %A_ScreenHeight%, C:\Users\rijul.kumar\AppData\Roaming\MacroCreator\Screenshots\Screen_20170512131014.png|1|0|ImageSearch|UntilFound|Window|||
+47|Continue, Continue, FoundX2, FoundY2, 1|0, 0, %A_ScreenWidth%, %A_ScreenHeight%, C:\Users\rijul.kumar\AppData\Roaming\MacroCreator\Screenshots\Screen_20170607151024.png|1|0|ImageSearch|UntilFound|Window|||
+48|[Add Variable]|FoundX2 += 225|1|0|Variable|||||
+49|[Pause]||1|300|Sleep|||||
+50|Left Move & Click|%FoundX2%, %FoundY2% Left, 2|1|500|Click|||||
+51|[Text]|^c|1|0|Send|||||
+52|[Pause]||1|250|Sleep|||||
+53|Compare Variables|Clipboard = Setup|1|0|If_Statement|0||||
+54|Continue, Continue, FoundX, FoundY, 1|0, 0, %A_ScreenWidth%, %A_ScreenHeight%, C:\Users\rijul.kumar\AppData\Roaming\MacroCreator\Screenshots\Screen_20170512131014.png|1|0|ImageSearch|UntilFound|Window|||
+55|Left Move & Click|%FoundX%, %FoundY% Left, 1|1|10|Click|||||
+56|Continue, Continue, FoundX, FoundY, 1|0, 0, %A_ScreenWidth%, %A_ScreenHeight%, C:\Users\rijul.kumar\AppData\Roaming\MacroCreator\Screenshots\Screen_20170512133624.png|1|0|ImageSearch|UntilFound|Window|||
+57|[Text]|{tab}|10|0|Send|||||
+58|[Pause]||1|100|Sleep|||||
+59|[Text]|{space}|1|25|Send|||||
+60|Continue, Continue, FoundX, FoundY, 1|0, 0, %A_ScreenWidth%, %A_ScreenHeight%, C:\Users\rijul.kumar\AppData\Roaming\MacroCreator\Screenshots\Screen_20170512131257.png|1|0|ImageSearch|UntilFound|Window|||
+61|Left Move & Click|%FoundX%, %FoundY% Left, 1|1|10|Click|||||
+62|[Pause]||1|400|Sleep|||||
+63|[Add Variable]|FoundX += 110|1|0|Variable|||||
+64|[Subtract Variable]|FoundY -= 60|1|0|Variable|||||
+65|Left Move & Click|%FoundX%, %FoundY% Left, 1|1|10|Click|||||
+66|Continue, Continue, FoundX, FoundY, 1|0, 0, %A_ScreenWidth%, %A_ScreenHeight%, C:\Users\rijul.kumar\AppData\Roaming\MacroCreator\Screenshots\Screen_20170512133624.png|1|0|ImageSearch|UntilFound|Window|||
+67|Continue, Continue, FoundX, FoundY, 1|0, 0, %A_ScreenWidth%, %A_ScreenHeight%, C:\Users\rijul.kumar\AppData\Roaming\MacroCreator\Screenshots\Screen_20170607103715.png|1|0|ImageSearch|UntilFound|Window|||
+68|[Add Variable]|FoundY += 20|1|0|Variable|||||
+69|Left Move & Click|%FoundX%, %FoundY% Left, 1|1|10|Click|||||
+70|[Add Variable]|FoundY += 40|1|0|Variable|||||
+71|[Pause]||1|400|Sleep|||||
+72|Left Move & Click|%FoundX%, %FoundY% Left, 1|1|10|Click|||||
+73|[Pause]||1|200|Sleep|||||
+74|Continue, Continue, FoundX, FoundY, 1|0, 0, %A_ScreenWidth%, %A_ScreenHeight%, C:\Users\rijul.kumar\AppData\Roaming\MacroCreator\Screenshots\Screen_20170607104210.png|1|0|ImageSearch|UntilFound|Window|||
+75|Left Move & Click|%FoundX%, %FoundY% Left, 1|1|10|Click|||||
+76|[End If]|EndIf|1|0|If_Statement|||||
+77|[Pause]||1|1000|Sleep|||||
+78|[Add Variable]|ID += 18|1|0|Variable|||||
+79|[Subtract Variable]|LoopNum -= 1|1|0|Variable|||||
+80|[Text]|^w|1|0|Send|||||
+81|[Pause]||1|1000|Sleep|||||
+82|[LoopEnd]|LoopEnd|1|0|Loop|||||
+83|[Add Variable]|looper += 1|1|0|Variable|||||
+84|Method:Click:ID||1|0|IECOM_Set|logoutLink:||||
+85|[End If]|EndIf|1|0|If_Statement|||||
+86|[LoopEnd]|LoopEnd|1|0|Loop|||||
+87|[Expression]|Xl.Quit(), Xl := ""|1|0|Expression|||||
+88|[MsgBox]|DONE!`n|1|0|MsgBox|0||||
+89|[Text]|^w|1|0|Send|||||
+

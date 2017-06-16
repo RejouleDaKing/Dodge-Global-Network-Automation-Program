@@ -1,0 +1,144 @@
+﻿Xl := ComObjCreate("Excel.Application")
+FileSelectFile, loginList, , C:\Users\rijul.kumar\Desktop\DGN Bots\Current Versions\DGN Planroom Log In.xlsx, Please select your Log In File
+Xl.Workbooks.Open(loginList)
+Sleep, 1000
+endRow := Xl.columns("A").end(-4121).row
+associations := %endRow% -1
+texty := ""
+textyRow := 2
+While textyRow <= endRow
+{
+    name := Xl.range("A" . %textyRow%).value . " = " . (%textyRow%-1) . "`n`n"
+    texty .= name
+    textyRow += 1
+}
+InputBox, looper, Where would you like to start your syncing process?, %texty%, , 500, 700, , , , , 14
+startTime := A_TickCount
+If !IsObject(ie)
+	ie := ComObjCreate("InternetExplorer.Application")
+ie.Visible := true
+ie.Navigate("network2.construction.com")
+WinMaximize, construction.com - the construction industry marketplace - Internet Explorer
+Sleep, 333
+WinActivate, construction.com - the construction industry marketplace - Internet Explorer
+Sleep, 333
+DGN:
+If looper <= %associations%
+{
+    Loop
+    {
+        rowNum := %looper%+1
+        userName := Xl.range("A" . %rowNum%).value
+        passWord := Xl.range("B" . %rowNum%).value
+        SSID := Xl.range("C" . %rowNum%).value
+        Send, %userName%  ; sign in
+        CurrentKeyDelay := A_KeyDelay
+        SetKeyDelay, 1
+        SendEvent, {Tab}  ; sign in
+        SetKeyDelay, %CurrentKeyDelay%
+        Send, %passWord%  ; sign in
+        CurrentKeyDelay := A_KeyDelay
+        SetKeyDelay, 1
+        SendEvent, {Enter}  ; sign in
+        SetKeyDelay, %CurrentKeyDelay%
+        Sleep, 500
+        ie.Navigate("http://network2.construction.com/Home.aspx")
+        ie.Navigate(SSID)
+        first := 0
+        projBool := ie.document.getElementByID("ctl00_contentPlaceHolderHeader_pcTop_listProjectCountText").InnerHTML
+        If projBool !=
+        {
+            ie.document.getElementsByName("project-select-all")[0].Click("")
+            ie.document.getElementsByName("ctl00$contentPlaceHolderHeader$pcTop$HeaderActions$btnprjresltAction")[0].Click("")
+            ie.document.getElementByID("lnkViewProjects").Click("") := ""
+        }
+        Else
+        {
+            looper += 1
+            ie.document.getElementByID("ctl00_ucHeader_lnk_SignOut").Click("") := ""
+            Goto, DGN
+        }
+        Loop
+        {
+            CoordMode, Pixel, Window
+            PixelSearch, FoundX, FoundY, 0, 0, %A_ScreenWidth%, %A_ScreenHeight%, 0x2DB98D, 0, Fast RGB
+        }
+        Until ErrorLevel = 0
+        projNum := ie.document.getElementByID("ctl00_contentPlaceHolderHeader_rptPager_lblTotalPageCount").InnerText
+        If projNum !=
+        {
+            loopNum := projNum
+        }
+        Else
+        {
+            loopNum := 1
+        }
+        Sleep, 1000
+        While loopNum>=0
+        {
+            If loopNum > 0
+            {
+                2:
+                ie.document.getElementsByClassName("syncRefreshText")[0].Click("")
+                If ErrorLevel != 0
+                {
+                    Goto, 2
+                }
+                3:
+                ie.document.getElementsByClassName("planRoomOkText")[1].Click("")
+                If ErrorLevel != 0
+                {
+                    Goto, 3
+                }
+                4:
+                ie.document.getElementByID("lnkTrackProjects").Click("") := ""
+                If ErrorLevel != 0
+                {
+                    Goto, 4
+                }
+                5:
+                ie.document.getElementsByClassName("trackCheck")[1].Click("")
+                If ErrorLevel != 0
+                {
+                    Goto, 5
+                }
+                6:
+                ie.document.getElementsByClassName("track-popup-submit")[0].Click("")
+                If ErrorLevel != 0
+                {
+                    Goto, 6
+                }
+                7:
+                ie.document.getElementsByClassName("syncRefreshText")[0].Focus("")
+                If ErrorLevel != 0
+                {
+                    Goto, 7
+                }
+                Else
+                {
+                    If loopNum > 1
+                    {
+                        ie.document.getElementByID("ctl00_contentPlaceHolderHeader_rptPager_lblNext").Click("") := ""
+                    }
+                }
+                loopNum -= 1
+            }
+            Else
+            {
+                ie.document.getElementByID("ctl00_ucHeader_lnk_SignOut").Click("") := ""
+                Sleep, 500
+                looper += 1
+                Goto, DGN
+            }
+        }
+    }
+    Until, looper=ArrayCount
+}
+Else
+{
+    TotalTime := (A_TickCount - startTime)/1000
+    MsgBox, 0, done, DONE!`n%TotalTime% Seconds, 10
+    WinClose, construction.com - the construction industry marketplace - Internet Explorer
+    Sleep, 333
+}
+Xl.Quit(), Xl := ""
